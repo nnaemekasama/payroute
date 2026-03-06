@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_DB: payroute
+      POSTGRES_USER: payroute
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U payroute']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: ./backend
+    ports:
+      - '3000:3000'
+    environment:
+      DATABASE_URL: postgresql://payroute:${DB_PASSWORD}@postgres:5432/payroute
+      WEBHOOK_SECRET: ${WEBHOOK_SECRET}
+      FX_QUOTE_TTL_SECONDS: 300
+      PORT: 3000
+      NODE_ENV: development
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: node src/index.js
+
+  frontend:
+    build: ./frontend
+    ports:
+      - '5173:5173'
+    environment:
+      VITE_API_URL: /api
+      VITE_BACKEND_URL: http://backend:3000
+    depends_on:
+      - backend
+    command: npm run dev -- --host 0.0.0.0
+
+volumes:
+  pgdata:
