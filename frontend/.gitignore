@@ -1,0 +1,10 @@
+# Environment — never commit
+.env
+.env.local
+.env.*.local
+
+# Dependencies and build
+node_modules/
+dist/
+coverage/
+*.log

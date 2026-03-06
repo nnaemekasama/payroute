@@ -1,7 +1,40 @@
+# Dependencies
 node_modules/
+.pnp
+.pnp.js
+
+# Build / dist
 dist/
+build/
+*.tsbuildinfo
+
+# Environment and secrets — never commit
 .env
+.env.local
+.env.*.local
+.env.development
+.env.test
+.env.production
+*.pem
+*.key
+
+# Logs and OS
 *.log
+npm-debug.log*
 .DS_Store
 Thumbs.db
+
+# Test / coverage
 coverage/
+.nyc_output/
+*.lcov
+
+# IDE / editor
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Optional
+.cache/

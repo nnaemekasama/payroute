@@ -40,7 +40,7 @@ Services will be available at:
 
 ### Running Locally (without Docker)
 
-You need PostgreSQL running and a `.env` file in the `backend` folder before starting the backend.
+You need PostgreSQL running and a `.env` file in the `backend` folder before starting the backend. **Never commit `.env`** — it is gitignored. Use strong, unique values for production.
 
 #### 1. Create backend environment file
 
